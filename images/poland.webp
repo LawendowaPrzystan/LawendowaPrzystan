@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="840px" height="599px" viewBox="0 0 840 599" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>pl-poland-flag</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="840" height="600" rx="60"></rect>
+    </defs>
+    <g id="Working" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="GoPro-EMEA_APAC-Flags" transform="translate(-5300.000000, -4101.000000)">
+            <g id="pl-poland-flag" transform="translate(5300.000000, 4100.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="CC-BG-Copy-14"></g>
+                <g mask="url(#mask-2)">
+                    <g transform="translate(-59.000000, 0.000000)">
+                        <polygon id="Fill-1" fill="#FFFFFF" points="0 600 958 600 958 1.59574468 0 1.59574468"></polygon>
+                        <polygon id="Fill-2" fill="#C9233D" points="0 600 958 600 958 300.797872 0 300.797872"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
