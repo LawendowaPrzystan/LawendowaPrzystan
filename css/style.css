@@ -9476,4 +9476,23 @@ textarea.form-control {
   border-radius: 50%;
 }
 
+/* Kalendarz tło i font */
+#calendar {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  background-color: #f2f4fb; /* jasne tło sekcji */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-height: 500px; /* np. 500px maksymalnie */
+  overflow-y: auto; /* pojawi się scroll jeśli kalendarz jest wyższy */
+}
+
+/* Nagłówki dni tygodnia */
+.fc-col-header-cell-cushion {
+  color: #BDA0CB;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
 /*# sourceMappingURL=style.css.map */

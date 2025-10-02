@@ -20,9 +20,14 @@
     
     <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 
     <!-- Theme Style -->
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/interaction.global.min.js"></script>
   </head>
   <body>
     
@@ -80,8 +85,23 @@
       </a>
     </section>
     <!-- END section -->
+<!-- <section id="calendar-section" class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-7 text-center heading-section">
+        <h2 class="mb-4">Kalendarz dostępności domków</h2>
+        <p>Zobacz, które terminy są już zajęte.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="calendar"></div>
+      </div>
+    </div>
+  </div>
+</section> -->
     <section id="reservation" class="py-5 bg-light">
-      <div class="container">
+      <div class="container ">
         <div class="row justify-content-center mb-5">
           <div class="col-md-7 text-center heading-section">
             <h2 class="mb-4">Zarezerwuj domek</h2>
@@ -91,7 +111,7 @@
 
         <div class="row">
           <div class="col-md-8 mx-auto">
-            <form id="reservationForm" class="p-5 bg-white shadow rounded">
+            <form id="reservationForm" class="p-5 bg-white shadow rounded" >
               <div class="form-group">
                 <input type="text" name="user_name" class="form-control" placeholder="Imię i nazwisko" required>
               </div>
@@ -99,8 +119,10 @@
                 <input type="email" name="user_email" class="form-control" placeholder="Twój email" required>
               </div>
               <div class="form-group">
-                <input type="text" name="dates" class="form-control" placeholder="Termin (np. 10-15 października)" required>
-              </div>
+              <label>Wybierz termin:</label>
+              <div id="reservation-calendar"></div>
+              <input type="hidden" name="dates" id="datesInput" required>
+            </div>
               <div class="form-group">
                 <textarea name="message" class="form-control" rows="4" placeholder="Dodatkowe informacje (opcjonalnie)"></textarea>
               </div>
@@ -112,70 +134,6 @@
         </div>
       </div>
     </section>
-
-
-    <!-- <section class="section bg-light pb-0"  >
-      <div class="container">
-       
-        <div class="row check-availabilty" id="next">
-          <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
-
-            <form action="#">
-              <div class="row">
-                <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                  <label for="checkin_date" class="font-weight-bold text-black">Zameldowanie</label>
-                  <div class="field-icon-wrap">
-                    <div class="icon"><span class="icon-calendar"></span></div>
-                    <input type="text" id="checkin_date" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                  <label for="checkout_date" class="font-weight-bold text-black">Wymeldowanie</label>
-                  <div class="field-icon-wrap">
-                    <div class="icon"><span class="icon-calendar"></span></div>
-                    <input type="text" id="checkout_date" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
-                  <div class="row">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                      <label for="adults" class="font-weight-bold text-black">Dorośli</label>
-                      <div class="field-icon-wrap">
-                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="adults" class="form-control">
-                          <option value="">1</option>
-                          <option value="">2</option>
-                          <option value="">3</option>
-                          <option value="">4+</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-3 mb-md-0">
-                      <label for="children" class="font-weight-bold text-black">Dzieci</label>
-                      <div class="field-icon-wrap">
-                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="children" class="form-control">
-                          <option value="">1</option>
-                          <option value="">2</option>
-                          <option value="">3</option>
-                          <option value="">4+</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-lg-3 align-self-end">
-                  <button class="btn btn-primary btn-block text-white">Sprawdź dostępność</button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-
-        </div>
-      </div>
-    </section> -->
-
     <section class="py-5 bg-light">
       <div class="container">
         <div class="row align-items-center">
@@ -444,5 +402,155 @@
     <script src="js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="js/email.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  var startDate = null;
+  var endDate = null;
+  var datesInput = document.getElementById('datesInput');
+
+  var calendarEl = document.getElementById('reservation-calendar');
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'pl',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: ''
+    },
+    buttonText: {
+      today: 'Dzisiaj'
+    },
+    selectable: false,
+    events: '/data/bookings.json',
+    eventColor: '#7E5E9C',
+    eventTextColor: '#fff',
+    displayEventTime: false,
+
+    // blokada przeszłych dni i minimalny start = jutro
+    validRange: function(nowDate) {
+      var today = new Date();
+      today.setDate(today.getDate()); // jutro
+      return { start: today.toISOString().split('T')[0] };
+    }
+  });
+
+  calendar.render();
+
+  calendarEl.addEventListener('click', function(e) {
+    var dayEl = e.target.closest('.fc-daygrid-day');
+    if (!dayEl) return;
+
+    var clickedDate = dayEl.getAttribute('data-date'); // YYYY-MM-DD
+    var clickObj = new Date(clickedDate);
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate());
+    if (clickObj < tomorrow) {
+      alert('Nie możesz rezerwować na dzisiaj ani w przeszłości.');
+      return;
+    }
+
+    // sprawdzenie czy dzień jest już zarezerwowany
+    var isInsideBooked = calendar.getEvents().some(function(ev) {
+      if (!ev.start || !ev.end) return false;
+      var evStart = new Date(ev.start);
+      var evEnd = new Date(ev.end);
+      evEnd.setDate(evEnd.getDate() - 1);
+      return clickObj > evStart && clickObj < evEnd;
+    });
+
+    if (isInsideBooked) {
+      alert('Ten dzień jest już w trakcie rezerwacji. Wybierz inny.');
+      return;
+    }
+
+    if (!startDate) {
+      startDate = clickedDate;
+      datesInput.value = startDate;
+      highlightDay(startDate, null);
+    } else if (!endDate) {
+      if (clickObj < new Date(startDate)) {
+        endDate = startDate;
+        startDate = clickedDate;
+      } else {
+        endDate = clickedDate;
+      }
+
+      // minimalny pobyt 2 noce
+      var diffDays = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+      if (diffDays < 2) {
+        alert('Minimalny pobyt to 2 noce. Wybierz późniejszy dzień.');
+        startDate = null;
+        endDate = null;
+        datesInput.value = '';
+        highlightDay(null, null);
+        return;
+      }
+
+      // sprawdzenie konfliktu całego zakresu
+      var conflict = calendar.getEvents().some(function(ev) {
+        if (!ev.start || !ev.end) return false;
+        var evStart = new Date(ev.start);
+        var evEnd = new Date(ev.end);
+        evEnd.setDate(evEnd.getDate() - 1);
+
+        var startObj = new Date(startDate);
+        var endObj = new Date(endDate);
+
+        return startObj < evEnd && endObj > evStart &&
+               !(endObj.getTime() === evStart.getTime() || startObj.getTime() === evEnd.getTime());
+      });
+
+      if (conflict) {
+        alert('Wybrany zakres koliduje z istniejącymi rezerwacjami. Wybierz inne daty.');
+        startDate = null;
+        endDate = null;
+        datesInput.value = '';
+        highlightDay(null, null);
+        return;
+      }
+
+      datesInput.value = startDate + ' - ' + endDate;
+      highlightDay(startDate, endDate);
+
+      startDate = null;
+      endDate = null;
+    }
+  });
+
+  function highlightDay(start, end) {
+    // usuń poprzednie zaznaczenia
+    calendar.getEvents().forEach(ev => {
+      if (ev.display === 'background') ev.remove();
+    });
+
+    if (!start) return;
+
+    if (!end) {
+      calendar.addEvent({
+        start: start,
+        end: start,
+        display: 'background',
+        backgroundColor: '#BDA0CB'
+      });
+    } else {
+      var startObj = new Date(start);
+      var endObj = new Date(end);
+      endObj.setDate(endObj.getDate() + 1); // FullCalendar nie wlicza ostatniego dnia
+      calendar.addEvent({
+        start: startObj.toISOString().split('T')[0],
+        end: endObj.toISOString().split('T')[0],
+        display: 'background',
+        backgroundColor: '#BDA0CB'
+      });
+    }
+  }
+});
+</script>
+
+
+
+
   </body>
 </html>
