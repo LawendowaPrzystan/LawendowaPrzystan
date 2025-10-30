@@ -60,4 +60,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .site-hero.inner-page.overlay {
+    background-image: url('../images/background_mobile.webp') !important;
+    background-position: center;
+    background-size: cover;
+  }
 }
+
