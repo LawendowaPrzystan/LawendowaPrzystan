@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        emailjs.sendForm('service_a55dca4', 'template_kb8gxtc', this)
+        emailjs.sendForm('service_jb8f39r', 'template_9929xoi', this)
         .then(function() {
             // Dodaj animację fadeOut
             form.classList.add('animate__animated', 'animate__fadeOut');
