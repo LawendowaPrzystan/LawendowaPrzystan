@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    emailjs.init("HBSYfBM8UZMwYbkCO");
+    emailjs.init("zN1n1yHaFHmkIb6vv");
 
     const form = document.getElementById('reservationForm');
     if (!form) return;
