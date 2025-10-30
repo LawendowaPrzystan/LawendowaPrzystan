@@ -35,3 +35,29 @@
   height: 100%;
   object-fit: cover; /* wypełnia hero zachowując proporcje */
 }
+
+@media (max-width: 768px) {
+  .fc .fc-col-header-cell-cushion {
+    font-size: 10px !important;
+    padding: 2px 0 !important;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 14px !important;
+  }
+
+  .fc .fc-daygrid-day-number {
+    font-size: 11px !important;
+  }
+
+  .fc .fc-scrollgrid-sync-table {
+    table-layout: fixed;
+  }
+
+  .fc-theme-standard td, 
+  .fc-theme-standard th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
